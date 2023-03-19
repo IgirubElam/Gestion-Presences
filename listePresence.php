@@ -8,25 +8,7 @@
 		header('location:login.php');
 	}
 
-	// if (setlocale(LC_TIME, 'fr_FR') == '') {
-	// 	setlocale(LC_TIME, 'FRA');
-	// 	$format_jour = '%#d';
-	// }else{
-	// 	$format_jour = '%e';
-	// }
-
-	// $requete="select * from  presence,appel,type_activite,choriste where presence.Id_appel=appel.Id_appel AND appel.Id_type_activite =type_activite.Id_activite AND presence.Id_choriste=choriste.Id_choriste";
-	// $resultat=$BaseDonnee->query($requete); 
-
-
-	// $typeActivite = $_GET['Nom_type_activite'];
-	// $sql = "SELECT c.Nom, c.Prenom, a.Description_appel
-	// 		FROM choriste c
-	// 		JOIN presence p ON c.Id_choriste = p.Id_choriste
-	// 		JOIN appel a ON p.Id_appel = a.Id_appel 
-	// 		WHERE a.Id_type_activite = '$typeActivite' ";
-	// $resultat = $BaseDonnee->query($sql);
-
+	
 ?>
 
 <!DOCTYPE html>
@@ -50,7 +32,7 @@
 			<div class="panel-heading"> Liste des presences</div>
 			<div class="panel-body">
 
-				<button class="btn btn-primary" id="btn-repetition">Repetition</button>
+				<button type="button" class="btn btn-primary" onclick="getPresence('Repetition')">Repetition</button>
 				&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
 				&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp;
 				<button class="btn btn-primary">Culte Francophone</button>
@@ -60,8 +42,8 @@
 				&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
 				&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp;
 				<button class="btn btn-primary">Louange</button>
-				<div>
-					<table class="table table-striped table-bordered" id="presence_table">
+				
+					<table class="table table-hover" id="table-presence" style="display: none;">
 						<thead>
 							<tr>
 								<th>Appel </th>
@@ -72,21 +54,11 @@
 
 						<tbody>
 							<tr>
-								<!-- <?php while($l_presences=$resultat->fetch()){ ?> -->
-									<tr>
-										<td>
-											<!-- <center><?php echo $l_presences['Nom_type_activite'] ?></center>
-											<center><?php echo "Appel du ".strftime("%A $format_jour %B %Y",strtotime($l_presences['Date'])) ?></center> -->
-										</td>
-
-										<td><!-- <?php echo $l_presences['Nom'] ?> --></td>
-										<td><!-- <?php echo $l_presences['Prenom'] ?> --></td>
-									</tr>
-								<!-- <?php } ?> -->
+								
 							</tr>
 						</tbody>
 					</table> 
-				</div>
+				
 			</div>
 		</div>
 
@@ -94,29 +66,16 @@
 
 	<script type="text/javascript">
 
-		$(document).ready(function(){
-			$('#btn-repetition').click(function(){
-				getPresence('Repetition');
-			});
-		})
-
+		
 		function getPresence(type_activite){
 			$.ajax({
-					url: 'selectRepetition.php',
+					url: 'get_presence.php',
 					type:'POST';
 					data:{type_activite: type_activite},
-					dataType:'json',
 					success:function(data){
-						var tbody = $('#presence_table tbody');
-						tbody.empty();
-						for (var i = 0; i < data.length; i++) {
-							var row = $('<tr>');
-							row.append($('<td>').text(data[i].Nom));
-							row.append($('<td>').text(data[i].Prenom));
-							row.append($('<td>').text(data[i].Description_appel));
-							tbody.append(row);
-						}
-						$('#presence_table').css('display','block');
+						$("#table-presence").html(data);
+
+						$("#table-presence").show();
 					},
 					error:function(jqXHR, testStatus, errorThrown) {
 						console.log(textStatus, errorThrown);
@@ -124,11 +83,7 @@
 				});
 		}
 
-		// $(document).ready(function(){
-		// 	$("#btn-repetition").click(function(){
-				
-		// 	});
-		// });
+		;
 	</script>
 
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popped.min.js"></script>
