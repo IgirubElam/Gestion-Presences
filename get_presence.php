@@ -12,6 +12,7 @@
 	}else{
 		$format_jour = '%e';
 	}
+	$typeActivite = isset($_GET['Id_activite'])?$_GET['Id_activite']:"";
 	$typeActivite = $_GET['Id_activite'];
 	$sql = "SELECT c.Nom, c.Prenom, a.Description_appel
 			FROM choriste c
@@ -34,43 +35,4 @@
 
 ?>
 
-<!-- <!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Repetition</title>
-</head>
-<body>
-	<div>
-		<div>
-			<table class="table table-striped table-bordered">
-					<thead>
-						<tr>
-							<th>Appel </th>
-							<th>Nom </th> 
-							<th>Prenom</th>
-						</tr>
-					</thead>
-
-					<tbody>
-						<tbody id="table-presence">
-							<?php while($l_presences=$resultat->fetch()){ ?>
-								<tr>
-									<td>
-										<center><?php echo $l_presences['Nom_type_activite'] ?></center>
-										<center><?php echo "Appel du ".strftime("%A $format_jour %B %Y",strtotime($l_presences['Date'])) ?></center>
-									</td>
-
-									<td><?php echo $l_presences['Nom'] ?></td>
-									<td><?php echo $l_presences['Prenom'] ?></td>
-								</tr>
-							<?php } ?>
-						</tbody>
-					</tbody>
-				</table>
-		</div>
-	</div>
-
-</body>
-</html> -->
+ 
